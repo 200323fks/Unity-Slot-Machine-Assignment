@@ -1,200 +1,195 @@
-# 🎰 Slot Machine Game
+# Slot Machine Game
 
-> A fully playable 3-reel slot machine built in **Unity 2022.3.18f1**
-> Submitted as part of the **Underpin Technology — Unity Developer Intern** assignment.
-
----
-
-## 📋 Table of Contents
-
-- [Game Overview](#-game-overview)
-- [How to Run WebGL Build](#-how-to-run-webgl-build)
-- [How to Play](#-how-to-play)
-- [Symbols & Payouts](#-symbols--payouts)
-- [Game Rules](#-game-rules)
-- [Bonus Features](#-bonus-features)
-- [Project Structure](#-project-structure)
-- [Scripts Overview](#-scripts-overview)
-- [Thought Process & Approach](#-thought-process--approach)
-- [Built With](#-built-with)
+A fully playable 3-reel slot machine built in Unity 2022.3.18f1, submitted as part of the Underpin Technology Unity Developer Intern assignment.
 
 ---
 
-## 🎮 Game Overview
+## Table of Contents
 
-A classic 3-reel slot machine game where the player pulls the handle to spin the reels. Match all 3 symbols across the reels to win a payout. The game tracks your balance, rewards big wins, and ends when you either run out of coins or hit the winner threshold — then automatically resets for another round.
-
----
-
-## 🚀 How to Run WebGL Build
-
-1. Go to the `/Build/WebGL` folder in this repository
-2. Open `index.html` in **Google Chrome** (recommended)
-3. If it doesn't load locally due to browser security, use a local server:
-   - Install [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) in VS Code
-   - Right-click `index.html` → **Open with Live Server**
-
-> ⚠️ Do NOT open `index.html` by double-clicking — it won't load due to CORS restrictions. Always use a local server.
+- [Game Overview](#game-overview)
+- [How to Run WebGL Build](#how-to-run-webgl-build)
+- [How to Play](#how-to-play)
+- [Symbols and Payouts](#symbols-and-payouts)
+- [Game Rules](#game-rules)
+- [Bonus Features](#bonus-features)
+- [Project Structure](#project-structure)
+- [Scripts Overview](#scripts-overview)
+- [Thought Process and Approach](#thought-process-and-approach)
+- [Built With](#built-with)
 
 ---
 
-## 🕹️ How to Play
+## Game Overview
 
-1. The game starts with **100 coins**
-2. Click the **SPIN button** or pull the **handle** to spin all 3 reels
-3. Each spin costs **10 coins**
-4. Wait for all 3 reels to stop
-5. If all 3 reels show the **same symbol** — you win the payout!
-6. Keep spinning to grow your balance
-7. Reach **200+ coins** to be crowned **WINNER** 🏆
-8. If your balance hits **0** — Game Over, the game resets automatically
+This is a classic 3-reel slot machine game where the player pulls the handle to spin the reels. The goal is simple — match all 3 symbols on the reels to win coins. The game keeps track of your balance, rewards you on wins, and ends the round when you either run out of coins or cross the winner threshold. After either outcome, the game resets automatically so you can play again.
 
 ---
 
-## 🃏 Symbols & Payouts
+## How to Run WebGL Build
+
+1. Open the `/Build/WebGL` folder from this repository
+2. Run `index.html` in Google Chrome
+3. If the file does not load directly, use a local server to avoid browser security issues:
+   - Install the Live Server extension in VS Code
+   - Right-click `index.html` and select Open with Live Server
+
+Note: Do not open `index.html` by double-clicking it. It will not load correctly due to CORS restrictions. Always use a local server.
+
+---
+
+## How to Play
+
+1. The game starts with 100 coins in your balance
+2. Click the Spin button or pull the handle on the right side of the machine
+3. Each spin deducts 10 coins from your balance
+4. Wait for all 3 reels to stop spinning
+5. If all 3 reels land on the same symbol, you win the payout for that symbol
+6. Keep spinning to build up your balance
+7. Cross 200 coins and you win the round
+8. If your balance drops to 0, the game shows a loss screen and resets
+
+---
+
+## Symbols and Payouts
 
 | Symbol | Payout |
-|:------:|:------:|
-| 🍒 Cherry | 30 coins |
-| 🔔 Bell   | 50 coins |
-| ⭐ Star   | 80 coins |
-| 7️⃣ Seven  | 150 coins |
+|--------|--------|
+| Cherry | 30 coins |
+| Bell | 50 coins |
+| Star | 80 coins |
+| Seven | 150 coins |
 
-> Payout is added to your balance on a winning spin.
-
----
-
-## 📏 Game Rules
-
-| Condition | Result |
-|-----------|--------|
-| All 3 reels match | Win — payout added to balance |
-| Reels don't match | Lose — no payout, bet already deducted |
-| Balance reaches **0** | **YOU LOSE** popup → game resets to 100 coins after 3 seconds |
-| Balance reaches **200+** | **WINNER!** popup → game resets to 100 coins after 3 seconds |
-| Spin during spinning | Ignored — button locked until reels stop |
+The payout is added directly to your balance when all 3 reels match.
 
 ---
 
-## ✨ Bonus Features
+## Game Rules
 
-| Feature | Description |
-|---------|-------------|
-| 🎰 **Handle Pull Animation** | The slot machine handle rotates 90° on Y axis when clicked, then returns — mimicking a real pull |
-| 🌊 **Staggered Reel Start** | Each reel starts with a 0.2s delay after the previous, creating a cascading spin effect |
-| 🔁 **Vertical Symbol Strip** | Each reel has a 4-image vertical strip that shuffles rapidly during spin, then lands cleanly |
-| 💥 **Bounce on Stop** | Each reel plays a snap/bounce animation when it lands for satisfying tactile feedback |
-| 🏆 **Win Popup Panel** | An animated scale-pop panel appears showing the payout amount on a winning spin |
-| ⏱️ **Auto-hide Win Panel** | Win popup automatically disappears after 2.5 seconds |
-| 💀 **Game Over Screen** | "YOU LOSE" shown in the popup when balance hits 0, game auto-resets |
-| 🥇 **Winner Screen** | "WINNER!" shown in the popup when balance exceeds 200, game auto-resets |
-| 🔒 **Spin Button Lock** | Button is disabled during spinning and end-game popups to prevent double input |
-| 📡 **Event-Driven Architecture** | UIManager listens to GameManager via UnityEvents — zero direct coupling |
+| Situation | What Happens |
+|-----------|--------------|
+| All 3 reels show the same symbol | You win and the payout is added to your balance |
+| Reels do not match | No payout, the bet is already deducted |
+| Balance reaches 0 | A YOU LOSE popup appears and the game resets to 100 coins after 3 seconds |
+| Balance crosses 200 | A WINNER popup appears and the game resets to 100 coins after 3 seconds |
+| Clicking spin while reels are moving | Nothing happens, the button is locked until all reels stop |
 
 ---
 
-## 📁 Project Structure
+## Bonus Features
+
+**Handle Pull Animation**
+The handle on the side of the machine rotates 90 degrees on the Y axis when you click spin, holds for a moment, then returns to its original position. It gives the feel of actually pulling a real slot machine handle.
+
+**Staggered Reel Start**
+Each reel starts spinning with a small delay after the previous one. This creates a cascading effect that looks and feels much more natural than all three starting at the same time.
+
+**Vertical Symbol Strip**
+Each reel is built as a vertical strip of 4 symbol images. During a spin, all 4 images shuffle rapidly. When the reel stops, the strip settles into a clean final position showing the landed symbol in context with the others around it.
+
+**Bounce on Stop**
+When a reel lands, it plays a small vertical bounce animation. It is a subtle effect but it makes the stop feel satisfying and physical rather than just abrupt.
+
+**Win Popup Panel**
+A popup panel appears with a scale animation whenever you win a spin. It shows the payout amount and disappears automatically after 2.5 seconds.
+
+**Game Over and Winner Screens**
+The same popup panel is reused for end-game states. It shows YOU LOSE when balance hits 0 and WINNER when balance crosses 200. In both cases the spin button is locked and the game resets after 3 seconds.
+
+**Spin Button Lock**
+The spin button is disabled the moment a spin starts and only re-enables once all reels have fully stopped. This prevents any accidental double spins.
+
+**Event-Driven UI**
+The UIManager does not directly talk to the GameManager. Instead it listens to UnityEvents fired by the GameManager. This means the entire UI layer can be changed or replaced without touching any game logic.
+
+---
+
+## Project Structure
 
 ```
 Assets/
 ├── Scripts/
 │   ├── Core/
-│   │   ├── GameManager.cs       — Spin flow, balance, win/lose, game-end logic
-│   │   ├── Reel.cs              — Reel strip animation and symbol landing
-│   │   ├── RNGManager.cs        — Centralized random number generation
-│   │   └── SlotSymbol.cs        — Symbol data model (name, sprite, payout)
+│   │   ├── GameManager.cs
+│   │   ├── Reel.cs
+│   │   ├── RNGManager.cs
+│   │   └── SlotSymbol.cs
 │   └── UI/
-│       ├── UIManager.cs         — All UI updates, listens to GameManager events
-│       ├── WinAnimator.cs       — Scale-pop animation on the WinPanel
-│       ├── ReelSpinAnimator.cs  — Bounce effect when a reel stops
-│       └── HandleAnimator.cs    — Handle pull/return animation on spin click
+│       ├── UIManager.cs
+│       ├── WinAnimator.cs
+│       ├── ReelSpinAnimator.cs
+│       └── HandleAnimator.cs
 ├── Sprites/
-│   └── Slot Machine/            — All game sprites and UI assets
-├── Prefabs/                     — Reusable GameObjects
-├── Animations/                  — Animation clips
-├── Sounds/                      — Audio clips (if applicable)
+│   └── Slot Machine/
+├── Prefabs/
+├── Animations/
+├── Sounds/
 └── Scenes/
-    └── SlotGame.unity           — Main game scene
+    └── SlotGame.unity
 ```
 
 ---
 
-## 📜 Scripts Overview
+## Scripts Overview
 
-### `GameManager.cs` — Core
-The brain of the game. Handles:
-- Deducting bet on each spin
-- Launching all 3 reels with staggered delays
-- Checking win condition (all 3 symbols match)
-- Awarding payouts and updating balance
-- Detecting game-over (balance = 0) and winner (balance ≥ 200)
-- Auto-resetting the game after 3 seconds on game-end
-- Firing UnityEvents so UIManager stays decoupled
+**GameManager.cs**
+This is the main controller of the game. It handles deducting the bet, launching all 3 reels with staggered delays, checking whether the spin was a win or a loss, updating the balance, detecting the game-over and winner conditions, and firing events to notify the UI.
 
-### `Reel.cs` — Core
-Controls a single reel's vertical symbol strip:
-- Rapidly shuffles all 4 symbol images during spin
-- Uses RNGManager to pick the final landed symbol
-- Fills the strip naturally around the result
-- Triggers bounce animation via ReelSpinAnimator
+**Reel.cs**
+Controls one reel. During a spin it rapidly randomizes the 4 symbol images in the strip to simulate movement. When the spin ends it uses RNGManager to pick the final symbol and settles the strip around it. It also triggers the bounce animation on landing.
 
-### `RNGManager.cs` — Core
-Single point of randomization. All `Random.Range` calls go through here for fairness and easy future seeding or testing.
+**RNGManager.cs**
+A single centralized class that handles all random number generation. Every random call in the game goes through here. This makes it easy to add weighted odds or a seed system later without changing anything else.
 
-### `SlotSymbol.cs` — Core
-Simple serializable data class holding a symbol's name, sprite, and payout value. Assigned in the Inspector.
+**SlotSymbol.cs**
+A simple data class that holds a symbol's name, sprite, and payout value. It is serializable so it can be filled in directly from the Unity Inspector.
 
-### `UIManager.cs` — UI
-Listens to all GameManager events and updates the UI:
-- Balance text, result text, bet text
-- Win popup with payout amount (auto-hides after 2.5s)
-- Game Over and Winner popups
-- Spin button enable/disable state
+**UIManager.cs**
+Handles everything visual. It listens to events from GameManager and updates the balance text, result text, win popup, and spin button state. It also runs the coroutine that auto-hides the win panel after 2.5 seconds.
 
-### `WinAnimator.cs` — UI
-Plays a scale-pop animation on the WinPanel every time it becomes active using `OnEnable`.
+**WinAnimator.cs**
+Attached to the WinPanel. Every time the panel is activated it plays a scale-pop animation that grows the panel in and then settles it to normal size.
 
-### `ReelSpinAnimator.cs` — UI
-Adds a vertical bounce to a reel's RectTransform when it stops, giving a satisfying snap feel.
+**ReelSpinAnimator.cs**
+Attached to each reel. When called after a reel stops, it moves the reel down slightly and snaps it back up to create a bounce effect.
 
-### `HandleAnimator.cs` — UI
-Animates the slot machine handle on spin click:
-- Rotates 90° on Y axis over 0.2s
-- Holds for 0.6s
-- Returns to original rotation over 0.2s
+**HandleAnimator.cs**
+Attached to the handle image. When TriggerPull is called it rotates the handle 90 degrees on the Y axis over 0.2 seconds, holds it there for 0.6 seconds, then returns it to the original rotation over 0.2 seconds.
 
 ---
 
-## 🧠 Thought Process & Approach
+## Thought Process and Approach
 
-1. **Separation of Concerns** — GameManager owns all game logic. UIManager owns all display logic. Reel owns its own animation. No script reaches into another's responsibility.
+**Keeping things separate**
+From the start I wanted each script to own only one thing. GameManager handles logic, UIManager handles display, Reel handles its own animation. None of them reach into each other directly. This made it much easier to change one part without breaking another.
 
-2. **Event-Driven UI** — UnityEvents (`onWin`, `onLose`, `onGameOver`, `onWinner`, etc.) decouple the UI completely from game logic. The UI can be redesigned without touching a single line of game code.
+**Using events instead of direct references**
+I used UnityEvents to connect the GameManager to the UIManager. The GameManager fires events like onWin, onLose, onGameOver, and onWinner. The UIManager just listens and reacts. This means I could completely redo the UI without touching a single line of game logic.
 
-3. **Centralized RNG** — All randomization goes through `RNGManager.GetRandomIndex()`. This makes it trivial to add seeding, weighted odds, or testing hooks in the future.
+**Centralizing randomization**
+All random calls go through RNGManager. This is a small thing but it matters. If I ever want to add weighted symbol probabilities or a seeded RNG for testing, I only need to change one place.
 
-4. **Staggered Coroutines** — Each reel receives an increasing delay offset (`i * 0.2s`) so they cascade naturally, just like a real slot machine.
+**Staggered reel starts**
+Each reel gets a delay of i times 0.2 seconds before it starts spinning. This one small change makes the whole machine feel much more like a real slot machine instead of three images changing at the same time.
 
-5. **Strip-based Reel Design** — Instead of swapping a single image, each reel has a vertical strip of 4 images that shuffle rapidly. This looks more authentic and fills the reel window naturally on landing.
+**Strip-based reels**
+Instead of swapping one image per reel, I built each reel as a vertical strip of 4 images. During the spin all 4 shuffle fast. When it stops the strip fills in naturally around the landed symbol. This looks far more authentic and was worth the extra setup.
 
-6. **Game-End States** — Rather than just stopping the game, both game-over and winner states show a clear popup, lock input, then auto-reset — keeping the game loop smooth and replayable.
+**End-game flow**
+I did not want the game to just freeze when someone wins or loses. Both end states show a clear popup, lock the input so nothing can be clicked, and then auto-reset after 3 seconds. The game loop stays smooth and the player can immediately play again.
 
-7. **Handle Animation** — A small but impactful detail. The Y-axis rotation gives the handle a realistic pull feel that makes the interaction more satisfying.
-
----
-
-## 🛠️ Built With
-
-- **Unity 2022.3.18f1**
-- **C#** — All game logic and UI scripts
-- **TextMeshPro** — High-quality UI text rendering
-- **Unity UI** — Canvas, Image, Button, VerticalLayoutGroup
-- **UnityEvents** — Decoupled event system between game and UI layers
+**The handle**
+This was a small detail but I think it matters. Clicking a button is fine but pulling a handle feels like a slot machine. The Y-axis rotation gives it a physical depth that a Z rotation would not.
 
 ---
 
-<div align="center">
+## Built With
 
-Made with ❤️ for the Underpin Technology Unity Developer Intern Assignment
+- Unity 2022.3.18f1
+- C# for all game logic and UI scripts
+- TextMeshPro for UI text
+- Unity UI system including Canvas, Image, Button, and VerticalLayoutGroup
+- UnityEvents for decoupled communication between game and UI layers
 
-</div>
+---
+
+Made for the Underpin Technology Unity Developer Intern Assignment
