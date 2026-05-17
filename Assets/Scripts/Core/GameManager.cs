@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
     [Header("Reels")]
     public Reel[] reels;              // Assign all 3 reel objects in Inspector
 
+    [Header("Handle")]
+    public HandleAnimator handleAnimator; // Assign Handle_Image's HandleAnimator here
+
     [Header("Balance Settings")]
     public int playerBalance = 100;
     public int betAmount = 10;        // Cost per spin
@@ -53,6 +56,10 @@ public class GameManager : MonoBehaviour
         playerBalance -= betAmount;
         onBalanceChanged?.Invoke(playerBalance);
         onSpinStarted?.Invoke();
+
+        // Trigger handle pull animation
+        if (handleAnimator != null)
+            handleAnimator.TriggerPull();
 
         StartCoroutine(SpinAllReels());
     }
