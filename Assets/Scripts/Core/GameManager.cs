@@ -17,12 +17,17 @@ public class GameManager : MonoBehaviour
     [Header("Stagger Settings")]
     public float reelStaggerDelay = 0.2f; // Delay between each reel starting
 
+    [Header("Game End Thresholds")]
+    public int winnerThreshold = 200;     // Balance above this = WINNER
+
     // Events so UIManager can react without tight coupling
     public UnityEvent<int> onBalanceChanged;   // fires with new balance
     public UnityEvent<int> onWin;              // fires with payout amount
     public UnityEvent onLose;
     public UnityEvent onSpinStarted;
     public UnityEvent onSpinFinished;
+    public UnityEvent onGameOver;             // fires when balance hits 0
+    public UnityEvent onWinner;               // fires when balance exceeds winnerThreshold
 
     private bool isSpinning = false;
 
@@ -104,5 +109,30 @@ public class GameManager : MonoBehaviour
             onLose?.Invoke();
             Debug.Log("No match. Try again!");
         }
+
+        // Check game-ending conditions after every spin result
+        if (playerBalance >= winnerThreshold)
+        {
+            onWinner?.Invoke();
+            StartCoroutine(ResetAfterDelay(3f));
+        }
+        else if (playerBalance <= 0)
+        {
+            onGameOver?.Invoke();
+            StartCoroutine(ResetAfterDelay(3f));
+        }
+    }
+
+    /// <summary>Resets balance and UI back to starting state after a delay.</summary>
+    private IEnumerator ResetAfterDelay(float delay)
+    {
+        // Lock the spin button during the end-game popup
+        isSpinning = true;
+        yield return new WaitForSeconds(delay);
+
+        playerBalance = 100;
+        isSpinning = false;
+        onBalanceChanged?.Invoke(playerBalance);
+        onSpinFinished?.Invoke(); // re-enables spin button via UIManager
     }
 }

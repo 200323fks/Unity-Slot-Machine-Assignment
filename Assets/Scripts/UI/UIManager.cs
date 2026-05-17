@@ -60,6 +60,30 @@ public class UIManager : MonoBehaviour
         if (winPanel) winPanel.SetActive(false);
     }
 
+    /// <summary>Called by GameManager.onGameOver — balance reached 0.</summary>
+    public void ShowGameOver()
+    {
+        if (winPanel)
+        {
+            winPanel.SetActive(true);
+            if (winAmountText) winAmountText.text = "YOU LOSE";
+        }
+        if (resultText) resultText.text = "Game Over!";
+        if (spinButton) spinButton.interactable = false;
+    }
+
+    /// <summary>Called by GameManager.onWinner — balance exceeded threshold.</summary>
+    public void ShowWinner()
+    {
+        if (winPanel)
+        {
+            winPanel.SetActive(true);
+            if (winAmountText) winAmountText.text = "WINNER!";
+        }
+        if (resultText) resultText.text = "Amazing! Resetting...";
+        if (spinButton) spinButton.interactable = false;
+    }
+
     /// <summary>Called by GameManager.onSpinStarted event — disables spin button.</summary>
     public void OnSpinStarted()
     {
@@ -72,6 +96,8 @@ public class UIManager : MonoBehaviour
     public void OnSpinFinished()
     {
         if (spinButton) spinButton.interactable = true;
+        if (winPanel) winPanel.SetActive(false);  // hide end-game popup on reset
+        if (resultText) resultText.text = "";
     }
 
     /// <summary>Updates the bet display text.</summary>
