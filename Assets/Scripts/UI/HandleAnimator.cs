@@ -33,7 +33,7 @@ public class HandleAnimator : MonoBehaviour
     {
         isAnimating = true;
 
-        Quaternion targetRotation = originalRotation * Quaternion.Euler(0f, 0f, -90f);
+        Quaternion targetRotation = originalRotation * Quaternion.Euler(50f, 0f, 0f);
 
         // Rotate down to 90 degrees
         float t = 0f;
