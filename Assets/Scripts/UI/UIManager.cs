@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -42,7 +43,14 @@ public class UIManager : MonoBehaviour
         {
             winPanel.SetActive(true);
             if (winAmountText) winAmountText.text = $"+{payout}";
+            StartCoroutine(HideWinPanelAfterDelay(2.5f)); // auto-hide after 2.5 seconds
         }
+    }
+
+    private IEnumerator HideWinPanelAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (winPanel) winPanel.SetActive(false);
     }
 
     /// <summary>Called by GameManager.onLose event.</summary>
