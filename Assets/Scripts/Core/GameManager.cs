@@ -2,30 +2,30 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-/// <summary>
-/// Central game controller. Manages spin flow, balance, and win/lose logic.
-/// </summary>
+
+// Manages spin flow, balance, and win/lose logic.
+
 public class GameManager : MonoBehaviour
 {
     [Header("Reels")]
-    public Reel[] reels;              // Assign all 3 reel objects in Inspector
+    public Reel[] reels;             
 
     [Header("Handle")]
-    public HandleAnimator handleAnimator; // Assign Handle_Image's HandleAnimator here
+    public HandleAnimator handleAnimator;  
 
     [Header("Balance Settings")]
     public int playerBalance = 100;
-    public int betAmount = 10;        // Cost per spin
+    public int betAmount = 10;      
 
     [Header("Stagger Settings")]
-    public float reelStaggerDelay = 0.2f; // Delay between each reel starting
+    public float reelStaggerDelay = 0.2f; 
 
     [Header("Game End Thresholds")]
-    public int winnerThreshold = 200;     // Balance above this = WINNER
+    public int winnerThreshold = 200;    
 
-    // Events so UIManager can react without tight coupling
-    public UnityEvent<int> onBalanceChanged;   // fires with new balance
-    public UnityEvent<int> onWin;              // fires with payout amount
+    
+    public UnityEvent<int> onBalanceChanged;  
+    public UnityEvent<int> onWin;              
     public UnityEvent onLose;
     public UnityEvent onSpinStarted;
     public UnityEvent onSpinFinished;
@@ -39,9 +39,7 @@ public class GameManager : MonoBehaviour
         onBalanceChanged?.Invoke(playerBalance);
     }
 
-    /// <summary>
-    /// Called by the Spin button. Deducts bet and starts all reels.
-    /// </summary>
+  
     public void StartSpin()
     {
         if (isSpinning) return;
@@ -52,12 +50,12 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // Deduct bet before spinning
+       
         playerBalance -= betAmount;
         onBalanceChanged?.Invoke(playerBalance);
         onSpinStarted?.Invoke();
 
-        // Trigger handle pull animation
+   
         if (handleAnimator != null)
             handleAnimator.TriggerPull();
 
@@ -68,7 +66,7 @@ public class GameManager : MonoBehaviour
     {
         isSpinning = true;
 
-        // Launch all reels with staggered delays (cascading effect)
+       
         Coroutine[] spinCoroutines = new Coroutine[reels.Length];
         for (int i = 0; i < reels.Length; i++)
         {
@@ -76,8 +74,6 @@ public class GameManager : MonoBehaviour
             spinCoroutines[i] = StartCoroutine(reels[i].Spin(delay));
         }
 
-        // Wait for the last reel to finish
-        // Last reel takes longest: its delay + spinDuration
         float totalWait = (reels.Length - 1) * reelStaggerDelay + reels[reels.Length - 1].spinDuration;
         yield return new WaitForSeconds(totalWait + 0.1f);
 
@@ -86,9 +82,6 @@ public class GameManager : MonoBehaviour
         CheckWin();
     }
 
-    /// <summary>
-    /// Checks if all reels show the same symbol. Awards payout if true.
-    /// </summary>
     private void CheckWin()
     {
         SlotSymbol firstSymbol = reels[0].GetCurrentSymbol();
@@ -117,7 +110,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("No match. Try again!");
         }
 
-        // Check game-ending conditions after every spin result
+       
         if (playerBalance >= winnerThreshold)
         {
             onWinner?.Invoke();
@@ -130,16 +123,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /// <summary>Resets balance and UI back to starting state after a delay.</summary>
-    private IEnumerator ResetAfterDelay(float delay)
+      private IEnumerator ResetAfterDelay(float delay)
     {
-        // Lock the spin button during the end-game popup
+      
         isSpinning = true;
         yield return new WaitForSeconds(delay);
 
         playerBalance = 100;
         isSpinning = false;
         onBalanceChanged?.Invoke(playerBalance);
-        onSpinFinished?.Invoke(); // re-enables spin button via UIManager
+        onSpinFinished?.Invoke(); 
     }
 }

@@ -1455,6 +1455,7 @@ GameObject:
   - component: {fileID: 1022399505}
   - component: {fileID: 1022399507}
   - component: {fileID: 1022399506}
+  - component: {fileID: 1022399508}
   m_Layer: 5
   m_Name: Handle_Image
   m_TagString: Untagged
@@ -1478,7 +1479,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -194, y: 120}
+  m_AnchoredPosition: {x: -194, y: 71}
   m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1022399506
@@ -1519,6 +1520,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1022399504}
   m_CullTransparentMesh: 1
+--- !u!114 &1022399508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022399504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f2bfda83ce4dbe4e90e00f8ce6b6417, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateDuration: 0.2
+  holdDuration: 0.6
+  returnDuration: 0.2
 --- !u!1 &1081201875
 GameObject:
   m_ObjectHideFlags: 0
@@ -2317,6 +2333,7 @@ MonoBehaviour:
   - {fileID: 1671182750}
   - {fileID: 882065447}
   - {fileID: 1951820529}
+  handleAnimator: {fileID: 1022399508}
   playerBalance: 100
   betAmount: 10
   reelStaggerDelay: 0.2

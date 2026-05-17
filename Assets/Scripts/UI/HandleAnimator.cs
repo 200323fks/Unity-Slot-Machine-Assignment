@@ -1,16 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
-/// <summary>
-/// Animates the slot machine handle: rotates 90 degrees on click, returns after 1 second.
-/// Attach this to the Handle_Image GameObject.
-/// Call TriggerPull() from the SpinButton's OnClick or from GameManager.StartSpin.
-/// </summary>
+
 public class HandleAnimator : MonoBehaviour
 {
-    public float rotateDuration = 0.2f;  // how fast it rotates to 90 degrees
-    public float holdDuration = 0.6f;    // how long it stays pulled before returning
-    public float returnDuration = 0.2f;  // how fast it returns to original position
+    public float rotateDuration = 0.2f;  
+    public float holdDuration = 0.6f;    
+    public float returnDuration = 0.2f;  
 
     private RectTransform rectTransform;
     private Quaternion originalRotation;
@@ -22,7 +18,7 @@ public class HandleAnimator : MonoBehaviour
         originalRotation = rectTransform.localRotation;
     }
 
-    /// <summary>Call this when the spin button is clicked.</summary>
+  
     public void TriggerPull()
     {
         if (isAnimating) return;
@@ -35,7 +31,7 @@ public class HandleAnimator : MonoBehaviour
 
         Quaternion targetRotation = originalRotation * Quaternion.Euler(50f, 0f, 0f);
 
-        // Rotate down to 90 degrees
+       
         float t = 0f;
         while (t < rotateDuration)
         {
@@ -45,7 +41,7 @@ public class HandleAnimator : MonoBehaviour
         }
         rectTransform.localRotation = targetRotation;
 
-        // Hold at pulled position
+      
         yield return new WaitForSeconds(holdDuration);
 
         // Return to original rotation

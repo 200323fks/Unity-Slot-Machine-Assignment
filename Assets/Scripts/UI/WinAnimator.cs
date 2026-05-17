@@ -1,10 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-/// <summary>
-/// Bonus Feature: Plays a scale-pop animation on the win panel when player wins.
-/// Attach this to the WinPanel GameObject.
-/// </summary>
+
 public class WinAnimator : MonoBehaviour
 {
     public float popDuration = 0.3f;
@@ -19,13 +16,13 @@ public class WinAnimator : MonoBehaviour
 
     private void OnEnable()
     {
-        // Trigger pop animation every time the panel is shown
+       
         StartCoroutine(PopAnimation());
     }
 
     private IEnumerator PopAnimation()
     {
-        // Scale up
+        
         float t = 0f;
         while (t < popDuration)
         {
@@ -35,7 +32,7 @@ public class WinAnimator : MonoBehaviour
             yield return null;
         }
 
-        // Scale back to normal
+       
         t = 0f;
         while (t < popDuration * 0.5f)
         {

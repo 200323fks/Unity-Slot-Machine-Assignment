@@ -1,14 +1,10 @@
 using System.Collections;
 using UnityEngine;
 
-/// <summary>
-/// Bonus Feature: Adds a vertical bounce effect to a reel when it stops spinning.
-/// Attach to each Reel GameObject alongside the Reel script.
-/// Call TriggerBounce() from Reel.Spin() after landing.
-/// </summary>
+
 public class ReelSpinAnimator : MonoBehaviour
 {
-    public float bounceDistance = 10f;  // pixels to bounce down then snap up
+    public float bounceDistance = 10f; 
     public float bounceDuration = 0.15f;
 
     private RectTransform rectTransform;
@@ -20,10 +16,10 @@ public class ReelSpinAnimator : MonoBehaviour
         originalPosition = rectTransform.anchoredPosition;
     }
 
-    /// <summary>Call this after the reel lands to play the bounce.</summary>
+   
     public IEnumerator TriggerBounce()
     {
-        // Move down slightly
+      
         float t = 0f;
         while (t < bounceDuration)
         {
@@ -33,7 +29,6 @@ public class ReelSpinAnimator : MonoBehaviour
             yield return null;
         }
 
-        // Snap back up
         t = 0f;
         while (t < bounceDuration)
         {
